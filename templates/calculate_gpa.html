@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block head_title %}{% trans "Calculate GPA" %}{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 text-center">
+                <input class="form-control" name="roll_no" id="roll_no" required placeholder="Roll No."><br>
+                <input class="form-control" name="course_no" id="course_no" placeholder="Course No."><br>
+                <button class="sign-btn" id="calculate">Calculate</button>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div><br>
+    <div class="container">
+        <div class="text-center">
+            <span id="gpa"></span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+
+    <script type="text/javascript">
+        $(function(){
+            $("#calculate").click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: 'calculate/',
+                    data: {
+                        'roll_no': $('#roll_no').val(),
+                        'course_no': $('#course_no').val()
+                    },
+                    success: function (response) {
+                        $('#gpa').text(response)
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

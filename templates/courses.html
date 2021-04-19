@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block head_title %}{% trans "Courses" %}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 text-center">
+                <a href="{% url 'add_student_course' %}">
+                    <span class="fa fa-plus-circle fa-4x" style="color: darkslategray"></span>
+                </a>
+            </div>
+            <div class="col-4"></div>
+
+        </div>
+    </div><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 text-center">
+                <h2>Student Courses</h2><br>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Roll No.</th>
+                        <th scope="col">Course Name</th>
+                        <th scope="col">Course No.</th>
+                        <th scope="col">Marks</th>
+                        <th scope="col">Update/Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for student in students %}
+                        {% for course in student.courses.all %}
+                            <tr>
+                                <td><span>{{ student.name }}</span></td>
+                                <td><span>{{ student.roll_no }}</span></td>
+                                <td><span>{{ course.name }}</span></td>
+                                <td><span>{{ course.course_no }}</span></td>
+                                <td>
+                                    <span>
+                                        {% for name, marks in student.marks.items %}
+                                            {% if name.capitalize == course.name.capitalize %}
+                                                {{ marks }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'update_student_course' student.id course.id %}">
+                                        <span style="color: darkslategray" class="fa fa-edit"></span>
+                                    </a>
+                                    <b>/</b>
+                                    <a href="#">
+                                        <span style="color: darkslategray" class="fa fa-trash"></span>
+                                    </a>
+                                <td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+{% endblock %}
